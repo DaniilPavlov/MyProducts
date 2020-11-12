@@ -29,7 +29,7 @@ class Input extends StatelessWidget {
       obscureText: obscureText,
       validator: (value) {
         if (value.isEmpty) {
-          return 'Please fix your grave error.';
+          return 'Please fix your gramma error.';
         }
         return null;
       },

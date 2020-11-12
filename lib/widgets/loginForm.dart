@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../services/auth.dart';
 import './input.dart';
+import '../screens/home.dart';
+import '../screens/loading.dart';
 
 class LoginForm extends StatefulWidget {
-  LoginForm({Key key}) : super(key: key);
+  LoginForm({Key key, @required this.authService}) : super(key: key);
+
+  final AuthService authService;
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -24,8 +29,7 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           Center(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 10.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
                 'Welcome to MyProducts',
                 style: TextStyle(
@@ -82,14 +86,29 @@ class _LoginFormState extends State<LoginForm> {
               splashColor: Colors.grey,
               child: RaisedButton(
                   child: Text(
-                    'Log in',
+                    'Log in with Google',
                     style: TextStyle(
                       fontSize: 24,
                       color: Colors.white,
                     ),
                   ),
                   onPressed: () {
-                    print('Login button pressed!');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LoadingScreen();
+                        },
+                      ),
+                    );
+                    widget.authService.loginWithGoogle().whenComplete(() {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return HomeScreen(authService: widget.authService);
+                          },
+                        ),
+                      );
+                    });
                   }),
             ),
           ),
