@@ -12,20 +12,22 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: AssetImage('assets/images/login-screen-image.jpg'),
+          image: AssetImage('assets/images/login-screen.webp'),
           fit: BoxFit.cover,
         )),
-        child: Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
-          child: LoginForm(authService: widget.authService),
-        ));
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Center(
+                    child: LoginForm(authService: widget.authService),
+                  ))
+            ]));
   }
 }

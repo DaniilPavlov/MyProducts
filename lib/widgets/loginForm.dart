@@ -28,16 +28,13 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(
-                'Добро пожаловать в MyProducts!',
-                style: TextStyle(
-                  fontSize: 38,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
+            child: Text(
+              'Добро пожаловать в MyProducts!',
+              style: TextStyle(
+                fontSize: 38,
+                fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
           Padding(

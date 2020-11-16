@@ -21,6 +21,7 @@ class MyProductsApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'MyProducts',
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
