@@ -24,7 +24,7 @@ class _LoginState extends State<LoginScreen> {
         )),
         child: Padding(
           padding:
-              const EdgeInsets.symmetric(horizontal: 50.0, vertical: 50.0),
+              const EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
           child: LoginForm(authService: widget.authService),
         ));
   }

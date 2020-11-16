@@ -10,18 +10,17 @@ class AuthService {
 
   Future<String> loginWithGoogle() async {
     final GoogleSignInAccount googleSignInAcc = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuth = await googleSignInAcc
-        .authentication;
+    final GoogleSignInAuthentication googleSignInAuth =
+        await googleSignInAcc.authentication;
 
     final AuthCredential googleAuthCred = GoogleAuthProvider.getCredential(
       accessToken: googleSignInAuth.accessToken,
       idToken: googleSignInAuth.idToken,
     );
 
-    final AuthResult authResult = await _firebaseAuth.signInWithCredential(
-        googleAuthCred);
+    final AuthResult authResult =
+        await _firebaseAuth.signInWithCredential(googleAuthCred);
     final FirebaseUser user = authResult.user;
-
 
     // TODO: Are user and currentUser both necessary? for now assume yes
     assert(!user.isAnonymous);

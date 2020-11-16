@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class BoxScreen extends StatelessWidget {
+class CheckListScreen extends StatelessWidget {
 
   @override
   Widget build (BuildContext context) {
@@ -8,9 +8,9 @@ class BoxScreen extends StatelessWidget {
       child: Container(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 50.0),
-          child: Text('Мои товары'),
+          child: Text('Мои списки покупок'),
         ),
       ),
     );
   }
-} 
+}

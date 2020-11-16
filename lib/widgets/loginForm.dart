@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../services/auth.dart';
 import './input.dart';
-import '../screens/home.dart';
+import '../screens/navContainer.dart';
 import '../screens/loading.dart';
 
 class LoginForm extends StatefulWidget {
@@ -31,9 +31,9 @@ class _LoginFormState extends State<LoginForm> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
-                'Welcome to MyProducts',
+                'Добро пожаловать в MyProducts!',
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 38,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -44,7 +44,7 @@ class _LoginFormState extends State<LoginForm> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 6.0, vertical: 15.0),
             child: Text(
-              'Username',
+              'Имя пользователя',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -54,14 +54,14 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Input(
             inputController: _usernameController,
-            placeholderText: 'Enter your username',
+            placeholderText: 'Введите ваш логин',
             obscureText: false,
           ),
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 6.0, vertical: 15.0),
             child: Text(
-              'Password',
+              'Пароль',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -71,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Input(
             inputController: _passwordController,
-            placeholderText: 'Enter your password',
+            placeholderText: 'Введите ваш пароль',
             obscureText: true,
           ),
           Padding(
@@ -86,9 +86,9 @@ class _LoginFormState extends State<LoginForm> {
               splashColor: Colors.grey,
               child: RaisedButton(
                   child: Text(
-                    'Log in with Google',
+                    'Google Account',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       color: Colors.white,
                     ),
                   ),
@@ -104,7 +104,8 @@ class _LoginFormState extends State<LoginForm> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) {
-                            return HomeScreen(authService: widget.authService);
+                            return NavContainerScreen(
+                                authService: widget.authService);
                           },
                         ),
                       );

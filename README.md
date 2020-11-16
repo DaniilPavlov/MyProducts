@@ -1,6 +1,6 @@
 # products_control
 
-App for controlling expirations date of your products
+App for controlling expiration date of your products
 
 ## Getting Started
 
