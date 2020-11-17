@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/pageTitle.dart';
 import '../widgets/pageSubtitle.dart';
-import '../widgets/shoppingCard.dart';
+import '../widgets/tappableCard.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.symmetric(
-                vertical: 50.0,
+                vertical: 20.0,
               ),
               child: PageTitle(
                 text: 'Главная',
@@ -29,10 +29,47 @@ class HomeScreen extends StatelessWidget {
               children: <Widget>[
                 PageSubtitle(
                   text: 'Недавние списки покупок',
+                  topPadding: 0.0,
                 ),
-                ShoppingCard(
-                  titleText: 'Еженедельные продукты',
-                  subtitleText: 'Мясо, чеснок, макароны, яйца',
+                TappableCard(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.list),
+                      title: Text('Еженедельные продукты'),
+                      subtitle: Text('Мясо, чеснок, макароны, яйца'),
+                    ),
+                  ],
+                  onTap: () {
+                    print('Tapped');
+                  },
+                ),
+                TappableCard(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.list),
+                      title: Text('Футбол'),
+                      subtitle: Text('Чипсы, сухарики, газировка'),
+                    ),
+                  ],
+                  onTap: () {
+                    print('Tapped');
+                  },
+                ),
+                PageSubtitle(
+                  text: 'Мои товары',
+                  topPadding: 20.0,
+                ),
+                TappableCard(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.list),
+                      title: Text('Продукты'),
+                      subtitle: Text('10 яиц, сыр, 1л молока'),
+                    ),
+                  ],
+                  onTap: () {
+                    print('Tapped');
+                  },
                 )
               ],
             )
