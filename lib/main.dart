@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screens/login.dart';
 import 'services/auth.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'services/graphql.dart';
 
 void main() {
   runApp(MyProductsApp());
@@ -20,15 +22,17 @@ class MyProductsApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'MyProducts',
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-      ),
-      home: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: LoginScreen(authService: authService),
+    return GraphQLProvider(
+      client: GraphqlService.client,
+      child: MaterialApp(
+        title: 'MyFridge',
+        theme: ThemeData(
+          primarySwatch: Colors.lightBlue,
+        ),
+        home: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: LoginScreen(authService: authService),
+        ),
       ),
     );
   }

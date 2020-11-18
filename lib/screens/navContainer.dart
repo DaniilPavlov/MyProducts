@@ -3,7 +3,7 @@ import '../services/auth.dart';
 import '../widgets/bottomNavBar.dart';
 import './box.dart';
 import './home.dart';
-import './checkList.dart';
+import './checkLists.dart';
 
 class NavContainerScreen extends StatefulWidget {
   NavContainerScreen({Key key, @required this.authService}) : super(key: key);
@@ -17,11 +17,17 @@ class NavContainerScreen extends StatefulWidget {
 }
 
 class _NavContainerScreenState extends State<NavContainerScreen> {
+  // current index to determine which screen renders
   int _currentIndex = 0;
+  // init screens
+  static final HomeScreen _homeScreen = HomeScreen();
+  static final CheckListsScreen _checkListsScreen = CheckListsScreen();
+  static final BoxScreen _boxScreen = BoxScreen();
+
   final List<Widget> _children = [
-    HomeScreen(),
-    CheckListScreen(),
-    BoxScreen(),
+    _homeScreen,
+    _checkListsScreen,
+    _boxScreen,
   ];
 
   void onTabTapped(int index) {
@@ -30,12 +36,19 @@ class _NavContainerScreenState extends State<NavContainerScreen> {
     });
   }
 
+  static final Map _floatingActionButtonMap = {
+    0: null,
+    1: _checkListsScreen.renderFloatingActionButton(),
+    2: _boxScreen.renderFloatingActionButton(),
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar:
           BottomNavBar(onTabTapped: onTabTapped, currentIndex: _currentIndex),
+      floatingActionButton: _floatingActionButtonMap[_currentIndex],
     );
   }
 }
