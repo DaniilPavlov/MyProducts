@@ -36,19 +36,25 @@ class _NavContainerScreenState extends State<NavContainerScreen> {
     });
   }
 
-  static final Map _floatingActionButtonMap = {
-    0: null,
-    1: _checkListsScreen.renderFloatingActionButton(),
-    2: _boxScreen.renderFloatingActionButton(),
-  };
+  Widget _floatingActionButton;
 
   @override
   Widget build(BuildContext context) {
+
+    if (_currentIndex == 0) {
+      _floatingActionButton = null;
+    } else if (_currentIndex == 1) {
+      _floatingActionButton =
+          _checkListsScreen.renderFloatingActionButton(context);
+    } else if (_currentIndex == 2) {
+      _floatingActionButton = _boxScreen.renderFloatingActionButton(context);
+    }
+
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar:
           BottomNavBar(onTabTapped: onTabTapped, currentIndex: _currentIndex),
-      floatingActionButton: _floatingActionButtonMap[_currentIndex],
+      floatingActionButton: _floatingActionButton,
     );
   }
 }

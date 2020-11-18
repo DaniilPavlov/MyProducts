@@ -1,25 +1,43 @@
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../widgets/pageTitle.dart';
 import '../widgets/pageSubtitle.dart';
 import '../widgets/tappableCard.dart';
+import '../widgets/fullScreenOverlay.dart';
+import '../widgets/createCheckListForm.dart';
 
 class CheckListsScreen extends StatelessWidget {
   // Each screen that has a floating action button will have this method
   // TODO: see if creating a wrapper component for the FAB is necessary
-  Widget renderFloatingActionButton() {
+  Widget renderFloatingActionButton(BuildContext context) {
     return Container(
-      height: 90.0,
-      width: 90.0,
+      height: 80.0,
+      width: 80.0,
       child: FittedBox(
         child: FloatingActionButton(
           child: Icon(Icons.add),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           onPressed: () {
-            print('Tapped');
+            _showOverlay(context);
           },
         ),
+      ),
+    );
+  }
+
+  void _showOverlay(BuildContext context) {
+    Navigator.of(context).push(
+      FullScreenOverlay(
+        RouteSettings(
+          arguments: FullScreenOverlayRouteArguments(
+            CreateCheckListForm(),
+          ),
+        ),
+        // TODO: Not sure what this ImageFilter thing does, it's just a required param for the ModalRoute. Look into how to remove it.
+        // TODO: That being said, it doesn't appear to be messing with anything, so meh
+        ImageFilter.blur(),
       ),
     );
   }
