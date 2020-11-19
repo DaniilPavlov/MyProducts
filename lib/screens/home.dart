@@ -5,7 +5,7 @@ import '../widgets/tappableCard.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key key}) : super(key: key);
-
+// TODO: Map cards over dummy data
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                 TappableCard(
                   children: <Widget>[
                     ListTile(
-                      leading: Icon(Icons.list),
+                      leading: Icon(Icons.inbox),
                       title: Text('Продукты'),
                       subtitle: Text('10 яиц, сыр, 1л молока'),
                     ),

@@ -56,6 +56,7 @@ class _NavContainerScreenState extends State<NavContainerScreen> {
           BottomNavBar(onTabTapped: onTabTapped, currentIndex: _currentIndex),
       floatingActionButton: _floatingActionButton,
       resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: true,
     );
   }
 }

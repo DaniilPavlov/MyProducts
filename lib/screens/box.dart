@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:products_control/widgets/tappableCard.dart';
 import '../widgets/pageTitle.dart';
 import '../widgets/pageSubtitle.dart';
 import '../widgets/fullScreenOverlay.dart';
@@ -34,8 +35,6 @@ class BoxScreen extends StatelessWidget {
             CreateBoxItemForm(),
           ),
         ),
-        // TODO: Not sure what this ImageFilter thing does, it's just a required param for the ModalRoute. Look into how to remove it.
-        // TODO: That being said, it doesn't appear to be messing with anything, so meh
         ImageFilter.blur(),
       ),
     );
@@ -65,6 +64,69 @@ class BoxScreen extends StatelessWidget {
                 PageSubtitle(
                   text: 'Товары',
                   topPadding: 0.0,
+                ),
+                TappableCard(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.kitchen),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                      ),
+                      title: Text("Яйца"),
+                      subtitle: Text("10 штук"),
+                      trailing: Text(
+                        '1',
+                        style: TextStyle(
+                          fontSize: 26.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                  onTap: () {
+                    print('Tapped');
+                  },
+                ),
+                TappableCard(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.kitchen),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                      ),
+                      title: Text("Молоко"),
+                      subtitle: Text("Простоквашино 1л"),
+                      trailing: Text(
+                        '2',
+                        style: TextStyle(
+                          fontSize: 26.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                  onTap: () {
+                    print('Tapped');
+                  },
+                ),
+                TappableCard(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.kitchen),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                      ),
+                      title: Text("Хлеб"),
+                      subtitle: Text("Батон нарезной"),
+                      trailing: Text(
+                        '1',
+                        style: TextStyle(
+                          fontSize: 26.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                  onTap: () {
+                    print('Tapped');
+                  },
                 ),
               ],
             )

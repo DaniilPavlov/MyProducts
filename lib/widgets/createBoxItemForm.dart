@@ -9,7 +9,7 @@ class CreateBoxItemForm extends StatefulWidget {
 
 class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
   final _formKey = GlobalKey<FormState>();
-  String dropdownValue = '(Коробка) Моя коробка';
+  String dropdownValue = 'Коробка';
 
   @override
   Widget build(BuildContext context) {
@@ -149,8 +149,8 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                left: 35.0,
-                right: 35.0,
+                left: 30.0,
+                right: 30.0,
                 bottom: 30.0,
               ),
               child: DropdownButtonFormField<String>(
@@ -182,10 +182,10 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                   ),
                 ),
                 items: <String>[
-                  '(Коробка) Моя коробка',
-                  '(Список покупок) Еженедельные продукты',
-                  '(Список покупок) Футбол',
-                  '(Список покупок) Для кухни'
+                  'Коробка',
+                  '(Список) Еженедельные продукты',
+                  '(Список) Футбол',
+                  '(Список) Для кухни'
                 ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
