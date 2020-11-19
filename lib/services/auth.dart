@@ -1,40 +1,39 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
-// Wrapper class for firebase Auth, makes use of the firebase_auth and google_sign_in packages
-// Thanks to https://medium.com/flutter-community/flutter-implementing-google-sign-in-71888bca24ed for the awesome guide!
+import 'package:products_control/models/user.dart';
 
 class AuthService {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String> loginWithGoogle() async {
-    final GoogleSignInAccount googleSignInAcc = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuth =
-        await googleSignInAcc.authentication;
-
-    final AuthCredential googleAuthCred = GoogleAuthProvider.getCredential(
-      accessToken: googleSignInAuth.accessToken,
-      idToken: googleSignInAuth.idToken,
-    );
-
-    final AuthResult authResult =
-        await _firebaseAuth.signInWithCredential(googleAuthCred);
-    final FirebaseUser user = authResult.user;
-
-    // TODO: Are user and currentUser both necessary? for now assume yes
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    final FirebaseUser currentUser = await _firebaseAuth.currentUser();
-    assert(user.uid == currentUser.uid);
-
-    return 'Login with google succeeded: $user';
+  Future<User> emailAndPasswordLogIn(String email, String password) async {
+    try {
+      AuthResult authResult = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      FirebaseUser user = authResult.user;
+      return User.fromFirebase(user);
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
-  Future<String> logoutWithGoogle() async {
-    await googleSignIn.signOut();
+  Future<User> emailAndPasswordReg(String email, String password) async {
+    try {
+      AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      FirebaseUser user = authResult.user;
+      return User.fromFirebase(user);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
-    return 'Logout with google succeeded';
+  Future<User> logOut() async {
+    await _auth.signOut();
+  }
+
+  Stream<User> get currentUser {
+    return _auth.onAuthStateChanged.map(
+        (FirebaseUser user) => user != null ? User.fromFirebase(user) : null);
   }
 }

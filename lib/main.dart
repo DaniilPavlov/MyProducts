@@ -1,39 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'screens/login.dart';
+import 'package:products_control/screens/authStatus.dart';
+import 'package:provider/provider.dart';
 import 'services/auth.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'services/graphql.dart';
+
+import 'models/user.dart';
 
 void main() {
   runApp(MyProductsApp());
 }
 
 class MyProductsApp extends StatelessWidget {
-  // This widget is the root of your application.
-
-  final AuthService authService = AuthService();
-
   @override
   Widget build(BuildContext context) {
-    // Set screen orientation to only vertical (no rotation happens when phone is re-oriented to landscape)
-    // TODO: Look into whether or not this works on iOS as well
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    return GraphQLProvider(
-      client: GraphqlService.client,
-      child: MaterialApp(
-        title: 'MyBox',
-        theme: ThemeData(
-          primarySwatch: Colors.lightBlue,
-        ),
-        home: Scaffold(
-          body: LoginScreen(authService: authService),
-          resizeToAvoidBottomInset: true,
-        ),
-      ),
-    );
+    return StreamProvider<User>.value(
+        value: AuthService().currentUser,
+        child: MaterialApp(
+          title: "MyProducts",
+          theme: ThemeData(
+              textSelectionHandleColor: Colors.deepPurple,
+              textSelectionColor: Colors.deepPurple,
+              cursorColor: Colors.deepPurple,
+              primaryColor: Colors.deepPurple,
+              textTheme: TextTheme(title: TextStyle(color: Colors.white))),
+          home: authStatusScreen(),
+        ));
   }
 }

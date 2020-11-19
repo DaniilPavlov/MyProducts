@@ -6,11 +6,7 @@ import './home.dart';
 import './checkLists.dart';
 
 class NavContainerScreen extends StatefulWidget {
-  NavContainerScreen({Key key, @required this.authService}) : super(key: key);
-
-  final AuthService authService;
-
-  // the authService isn't used just yet in the nav screen, but will be needed for log out
+  NavContainerScreen({Key key}) : super(key: key);
 
   @override
   _NavContainerScreenState createState() => _NavContainerScreenState();
@@ -19,6 +15,7 @@ class NavContainerScreen extends StatefulWidget {
 class _NavContainerScreenState extends State<NavContainerScreen> {
   // current index to determine which screen renders
   int _currentIndex = 0;
+
   // init screens
   static final HomeScreen _homeScreen = HomeScreen();
   static final CheckListsScreen _checkListsScreen = CheckListsScreen();
@@ -40,7 +37,6 @@ class _NavContainerScreenState extends State<NavContainerScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     if (_currentIndex == 0) {
       _floatingActionButton = null;
     } else if (_currentIndex == 1) {

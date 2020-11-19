@@ -126,7 +126,7 @@ class _CreateCheckListFormState extends State<CreateCheckListForm> {
                         fontSize: 26.0,
                       ),
                     ),
-                    color: Colors.lightBlue,
+                    color: Colors.deepPurple,
                   ),
                 ),
                 ButtonTheme(

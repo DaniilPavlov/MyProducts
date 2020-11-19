@@ -26,7 +26,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               icon: Icon(Icons.inbox), title: Text('Моя коробка'))
         ],
         currentIndex: widget.currentIndex,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Colors.deepPurple,
         onTap: widget.onTabTapped,
         type: BottomNavigationBarType.fixed);
   }

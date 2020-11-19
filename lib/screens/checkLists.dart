@@ -17,7 +17,7 @@ class CheckListsScreen extends StatelessWidget {
       child: FittedBox(
         child: FloatingActionButton(
           child: Icon(Icons.add),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.deepPurple,
           foregroundColor: Colors.white,
           onPressed: () {
             _showOverlay(context);

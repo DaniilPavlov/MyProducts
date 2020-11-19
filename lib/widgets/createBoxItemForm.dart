@@ -224,7 +224,7 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                         fontSize: 26.0,
                       ),
                     ),
-                    color: Colors.lightBlue,
+                    color: Colors.deepPurple,
                   ),
                 ),
                 ButtonTheme(
