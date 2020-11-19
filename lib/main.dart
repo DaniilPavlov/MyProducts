@@ -25,13 +25,13 @@ class MyProductsApp extends StatelessWidget {
     return GraphQLProvider(
       client: GraphqlService.client,
       child: MaterialApp(
-        title: 'MyFridge',
+        title: 'MyBox',
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
         ),
         home: Scaffold(
-          resizeToAvoidBottomInset: false,
           body: LoginScreen(authService: authService),
+          resizeToAvoidBottomInset: true,
         ),
       ),
     );

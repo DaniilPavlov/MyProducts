@@ -9,6 +9,7 @@ class CreateBoxItemForm extends StatefulWidget {
 
 class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
   final _formKey = GlobalKey<FormState>();
+  String dropdownValue = '(Коробка) Моя коробка';
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +108,103 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                 },
               ),
             ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: 30.0,
+                right: 30.0,
+                bottom: 30.0,
+              ),
+              child: TextFormField(
+                cursorColor: Colors.black,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Количество',
+                  hintText: '0',
+                  labelStyle: TextStyle(
+                    fontSize: 26.0,
+                    color: Colors.black,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                validator: (value) {
+                  if (value.isEmpty || int.tryParse(value) == null) {
+                    return 'Пожалуйста введите число';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: 35.0,
+                right: 35.0,
+                bottom: 30.0,
+              ),
+              child: DropdownButtonFormField<String>(
+                value: dropdownValue,
+                isExpanded: true,
+                icon: Icon(Icons.list),
+                iconSize: 40.0,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22.0,
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Добавить в',
+                  labelStyle: TextStyle(
+                    fontSize: 26.0,
+                    color: Colors.black,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                items: <String>[
+                  '(Коробка) Моя коробка',
+                  '(Список покупок) Еженедельные продукты',
+                  '(Список покупок) Футбол',
+                  '(Список покупок) Для кухни'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 22.0,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (String newValue) {
+                  setState(() {
+                    dropdownValue = newValue;
+                  });
+                },
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -126,7 +224,7 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                         fontSize: 26.0,
                       ),
                     ),
-                    color: Colors.green,
+                    color: Colors.lightBlue,
                   ),
                 ),
                 ButtonTheme(
