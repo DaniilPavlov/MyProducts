@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Input extends StatelessWidget {
-  Input(
+class AuthInput extends StatelessWidget {
+  AuthInput(
       {Key key,
       @required this.inputController,
       @required this.placeholderText,

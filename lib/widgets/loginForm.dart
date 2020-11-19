@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../services/auth.dart';
-import './input.dart';
+import './authInput.dart';
 import '../screens/navContainer.dart';
 import '../screens/loading.dart';
 
@@ -28,13 +28,16 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           Center(
-            child: Text(
-              'Добро пожаловать в MyProducts!',
-              style: TextStyle(
-                fontSize: 38,
-                fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 40.0),
+              child: Text(
+                'Добро пожаловать в MyProducts',
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ),
           Padding(
@@ -49,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
               textAlign: TextAlign.left,
             ),
           ),
-          Input(
+          AuthInput(
             inputController: _usernameController,
             placeholderText: 'Введите ваш логин',
             obscureText: false,
@@ -66,7 +69,7 @@ class _LoginFormState extends State<LoginForm> {
               textAlign: TextAlign.left,
             ),
           ),
-          Input(
+          AuthInput(
             inputController: _passwordController,
             placeholderText: 'Введите ваш пароль',
             obscureText: true,
