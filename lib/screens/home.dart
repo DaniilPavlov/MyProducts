@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   AuthService().logOut();
                 },
-                icon: Icon(Icons.supervised_user_circle, color: Colors.black38),
+                icon: Icon(Icons.exit_to_app, color: Colors.black38),
                 label: SizedBox.shrink())
           ],
         ),

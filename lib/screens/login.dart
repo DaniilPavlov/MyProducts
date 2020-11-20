@@ -3,9 +3,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:products_control/models/user.dart';
 import 'package:products_control/services/auth.dart';
 
-import 'loading.dart';
 
 class LoginScreen extends StatefulWidget {
+  LoginScreen({Key key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -111,12 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     void _buttonLogin() async {
-
       _email = _emailController.text;
       _password = _passwordController.text;
       if (_email.isEmpty || _password.isEmpty) return;
 
-      User user = await _authService.emailAndPasswordLogIn(
+      dynamic user = await _authService.emailAndPasswordLogIn(
           _email.trim(), _password.trim());
       if (user == null) {
         Fluttertoast.showToast(
@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (_email.isEmpty || _password.isEmpty) return;
 
-      User user = await _authService.emailAndPasswordReg(
+      dynamic user = await _authService.emailAndPasswordReg(
           _email.trim(), _password.trim());
       if (user == null) {
         Fluttertoast.showToast(

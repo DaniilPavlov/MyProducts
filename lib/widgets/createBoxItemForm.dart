@@ -1,21 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:products_control/models/data.dart';
+import 'package:products_control/models/user.dart';
+import 'package:products_control/services/database.dart';
+import 'package:provider/provider.dart';
 
 class CreateBoxItemForm extends StatefulWidget {
-  CreateBoxItemForm({Key key}) : super(key: key);
+  final BoxItem boxItem;
+
+  CreateBoxItemForm({Key key, this.boxItem}) : super(key: key);
 
   @override
   _CreateBoxItemFormState createState() => _CreateBoxItemFormState();
 }
 
 class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
-  final _formKey = GlobalKey<FormState>();
-  String dropdownValue = 'Коробка';
+  final _formKey = GlobalKey<FormBuilderState>();
+  User user;
+  BoxItem boxItem = BoxItem();
+  bool isNew = true;
+
+  @override
+  void initState() {
+    // if (widget.boxItem != null) {
+    //   isNew = false;
+    //   boxItem = widget.boxItem.copy();
+    // }
+
+    super.initState();
+  }
+
+  void _saveWorkout() async {
+    if (_formKey.currentState.saveAndValidate()) {
+      //print(workout.toMap());
+      if (boxItem.uid == null) {
+        boxItem.author = user.id;
+      }
+
+      await DatabaseService().addOrUpdateBoxItem(boxItem);
+      Navigator.of(context).pop(boxItem);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Space out the fields in this form with flex instead of applying padding to each element
-    return Form(
+    user = Provider.of<User>(context);
+
+    return FormBuilder(
       key: _formKey,
+      autovalidate: false,
+      initialValue: {},
+      readOnly: false,
       child: Container(
         padding: EdgeInsets.all(
           20.0,
@@ -37,6 +72,7 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                 vertical: 30.0,
               ),
               child: TextFormField(
+                initialValue: boxItem.title,
                 cursorColor: Colors.black,
                 style: TextStyle(
                   fontSize: 20,
@@ -61,6 +97,11 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
+                onChanged: (dynamic val) {
+                  setState(() {
+                    boxItem.title = val;
+                  });
+                },
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Пожалуйста введите продукт';
@@ -76,6 +117,7 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                 bottom: 30.0,
               ),
               child: TextFormField(
+                initialValue: boxItem.description,
                 cursorColor: Colors.black,
                 style: TextStyle(
                   fontSize: 20,
@@ -100,9 +142,14 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
+                onChanged: (dynamic val) {
+                  setState(() {
+                    boxItem.description = val;
+                  });
+                },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Пожалуйства введите продукт';
+                    return 'Пожалуйства введите категорию';
                   }
                   return null;
                 },
@@ -115,6 +162,7 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                 bottom: 30.0,
               ),
               child: TextFormField(
+                initialValue: boxItem.amount,
                 cursorColor: Colors.black,
                 style: TextStyle(
                   fontSize: 20,
@@ -139,6 +187,11 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
+                onChanged: (dynamic val) {
+                  setState(() {
+                    boxItem.amount = val;
+                  });
+                },
                 validator: (value) {
                   if (value.isEmpty || int.tryParse(value) == null) {
                     return 'Пожалуйста введите число';
@@ -153,17 +206,15 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                 right: 30.0,
                 bottom: 30.0,
               ),
-              child: DropdownButtonFormField<String>(
-                value: dropdownValue,
-                isExpanded: true,
-                icon: Icon(Icons.list),
-                iconSize: 40.0,
+              child: TextFormField(
+                initialValue: boxItem.expirationDate,
+                cursorColor: Colors.black,
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22.0,
+                  fontSize: 20,
                 ),
                 decoration: const InputDecoration(
-                  labelText: 'Добавить в',
+                  labelText: 'Срок годности',
+                  hintText: '20/11/2020',
                   labelStyle: TextStyle(
                     fontSize: 26.0,
                     color: Colors.black,
@@ -181,27 +232,16 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
-                items: <String>[
-                  'Коробка',
-                  '(Список) Еженедельные продукты',
-                  '(Список) Футбол',
-                  '(Список) Для кухни'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 22.0,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (String newValue) {
+                onChanged: (dynamic val) {
                   setState(() {
-                    dropdownValue = newValue;
+                    boxItem.expirationDate = val;
                   });
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Пожалуйства введите срок годности';
+                  }
+                  return null;
                 },
               ),
             ),
@@ -213,9 +253,9 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                   height: 60.0,
                   child: RaisedButton(
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        // Process data
-                      }
+                      //СЮДА!!!!!!!!!!!!!!!!
+                      _saveWorkout();
+                      print(boxItem);
                     },
                     child: Text(
                       'Добавить',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:products_control/components/boxItems-list.dart';
 import '../services/auth.dart';
 import '../widgets/bottomNavBar.dart';
 import './box.dart';
@@ -15,7 +16,6 @@ class NavContainerScreen extends StatefulWidget {
 class _NavContainerScreenState extends State<NavContainerScreen> {
   // current index to determine which screen renders
   int _currentIndex = 0;
-
   // init screens
   static final HomeScreen _homeScreen = HomeScreen();
   static final CheckListsScreen _checkListsScreen = CheckListsScreen();
