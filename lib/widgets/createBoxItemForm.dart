@@ -16,6 +16,7 @@ class CreateBoxItemForm extends StatefulWidget {
 
 class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
   final _formKey = GlobalKey<FormBuilderState>();
+  String dropdownValue = 'Еда';
   User user;
   BoxItem boxItem = BoxItem();
   bool isNew = true;
@@ -30,10 +31,10 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
     super.initState();
   }
 
-  void _saveWorkout() async {
+  void _saveProduct() async {
     if (_formKey.currentState.saveAndValidate()) {
       //print(workout.toMap());
-      if (boxItem.uid == null) {
+      if (boxItem.id == null) {
         boxItem.author = user.id;
       }
 
@@ -79,7 +80,7 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                 ),
                 decoration: const InputDecoration(
                   labelText: 'Продукт',
-                  hintText: 'Молоко',
+                  hintText: 'Продукт',
                   labelStyle: TextStyle(
                     fontSize: 26.0,
                     color: Colors.black,
@@ -116,15 +117,17 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                 right: 30.0,
                 bottom: 30.0,
               ),
-              child: TextFormField(
-                initialValue: boxItem.description,
-                cursorColor: Colors.black,
+              child: DropdownButtonFormField<String>(
+                value: boxItem.category,
+                isExpanded: true,
+                icon: Icon(Icons.list),
+                iconSize: 40.0,
                 style: TextStyle(
-                  fontSize: 20,
+                  color: Colors.black,
+                  fontSize: 22.0,
                 ),
                 decoration: const InputDecoration(
                   labelText: 'Категория',
-                  hintText: 'Еда',
                   labelStyle: TextStyle(
                     fontSize: 26.0,
                     color: Colors.black,
@@ -142,14 +145,33 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
-                onChanged: (dynamic val) {
+                items: <String>[
+                  'Еда',
+                  'Напитки',
+                  'Аптечка',
+                  'Для тела',
+                  'Для дома',
+                  'Другое'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 22.0,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (String val) {
                   setState(() {
-                    boxItem.description = val;
+                    boxItem.category = val;
                   });
                 },
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Пожалуйства введите категорию';
+                validator: (val) {
+                  if (val.isEmpty) {
+                    return 'Пожалуйста выберите категорию';
                   }
                   return null;
                 },
@@ -254,8 +276,7 @@ class _CreateBoxItemFormState extends State<CreateBoxItemForm> {
                   child: RaisedButton(
                     onPressed: () {
                       //СЮДА!!!!!!!!!!!!!!!!
-                      _saveWorkout();
-                      print(boxItem);
+                      _saveProduct();
                     },
                     child: Text(
                       'Добавить',

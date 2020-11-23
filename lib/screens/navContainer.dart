@@ -16,6 +16,7 @@ class NavContainerScreen extends StatefulWidget {
 class _NavContainerScreenState extends State<NavContainerScreen> {
   // current index to determine which screen renders
   int _currentIndex = 0;
+
   // init screens
   static final HomeScreen _homeScreen = HomeScreen();
   static final CheckListsScreen _checkListsScreen = CheckListsScreen();
@@ -47,6 +48,18 @@ class _NavContainerScreenState extends State<NavContainerScreen> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text("MyProducts", style: TextStyle(color: Colors.black)),
+        actions: <Widget>[
+          FlatButton.icon(
+              onPressed: () {
+                AuthService().logOut();
+              },
+              icon: Icon(Icons.exit_to_app, color: Colors.black38),
+              label: SizedBox.shrink())
+        ],
+      ),
       body: _children[_currentIndex],
       bottomNavigationBar:
           BottomNavBar(onTabTapped: onTabTapped, currentIndex: _currentIndex),

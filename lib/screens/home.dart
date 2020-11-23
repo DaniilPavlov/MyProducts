@@ -12,18 +12,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Text("MyProducts",style: TextStyle(color: Colors.black)),
-          actions: <Widget>[
-            FlatButton.icon(
-                onPressed: () {
-                  AuthService().logOut();
-                },
-                icon: Icon(Icons.exit_to_app, color: Colors.black38),
-                label: SizedBox.shrink())
-          ],
-        ),
         body: Padding(
           padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
           child: Column(

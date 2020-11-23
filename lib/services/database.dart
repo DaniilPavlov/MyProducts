@@ -7,12 +7,11 @@ class DatabaseService {
       Firestore.instance.collection('checkLists');
   final CollectionReference _boxItemCollection =
       Firestore.instance.collection('boxItems');
-
-  // final CollectionReference _userDataCollection =
-  // Firestore.instance.collection("userData");
+  final CollectionReference _userDataCollection =
+      Firestore.instance.collection("userData");
 
   Future addOrUpdateBoxItem(BoxItem boxItem) async {
-    DocumentReference boxItemRef = _boxItemCollection.document(boxItem.uid);
+    DocumentReference boxItemRef = _boxItemCollection.document(boxItem.id);
 
 // Берем ссылку на документ по schedule.id. Она позволит потом достать кусочек данных без неделей
 // Кусочек будет хранить название, описание, автора, доступность и дату создания (показывается в меню)
@@ -29,12 +28,12 @@ class DatabaseService {
   }
 
   // Возвращает список воркаутов в меню. Есть поддержка фильтрации (уровень и автор)
-  Stream<List<BoxItem>> getBoxItems({String author}) {
+  Stream<List<BoxItem>> getBoxItems({String author, String category}) {
     // Query - запрос о данных в конкретном месте
-    print(author);
     Query query;
     if (author != null)
       query = _boxItemCollection.where('author', isEqualTo: author);
+    if (category != null) query = query.where('category', isEqualTo: category);
 
 // Метод snapshots() позволяет вернуть данные в конкретный момент как они есть в базе
 // Перемепиваем их на наши воркауты
@@ -45,25 +44,25 @@ class DatabaseService {
         .toList());
   }
 
-// Future<WorkoutSchedule> getWorkout(String id) async {
-//   var doc = await _workoutScheduleCollection.document(id).get();
-//   return WorkoutSchedule.fromJson(doc.documentID, doc.data);
-// }
+  Future<BoxItem> getBoxItem(String id) async {
+    var doc = await _boxItemCollection.document(id).get();
+    return BoxItem.fromJson(doc.documentID, doc.data);
+  }
 
 // User Data
 
 //Обновление профиля
-// Future updateUserData(User user) async {
-//   //берем весь текущий объект userData
-//   final userData = user.userData.toMap();
-//   //сериализуем (перевода структуры данных в последовательность битов) и сохраняем
-//   await _userDataCollection.document(user.id).setData(userData);
-// }
+  Future updateUserData(User user) async {
+    //берем весь текущий объект userData
+    final userData = user.userData.toMap();
+    //сериализуем (перевода структуры данных в последовательность битов) и сохраняем
+    await _userDataCollection.document(user.id).setData(userData);
+  }
 //
-//   Future addUserBoxItem(User user, WorkoutSchedule workout) async {
+//   Future addUserBoxItem(User user, BoxItem boxItem) async {
 //     //описание методов fromWorkout/addUserWorkout смотреть через ctrl
-//     var userWorkout = UserWorkout.fromWorkout(workout);
-//     user.userData.addUserBoxItem(userWorkout);
+//     var userBoxItem = BoxItem.fromBoxItem(workout);
+//     user.userData.addUserBoxItem(userBoxItem);
 //     await updateUserData(user);
 //   }
 //
@@ -73,7 +72,7 @@ class DatabaseService {
 //
 //     return query.snapshots().map((QuerySnapshot data) => data.documents
 //         .map((DocumentSnapshot doc) =>
-//         Workout.fromJson(doc.data, id: doc.documentID))
+//         BoxItem.fromJson(doc.data, id: doc.documentID))
 //         .toList());
 //   }
 }
