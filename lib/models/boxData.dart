@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class BoxItem {
   String id;
   String title;
@@ -16,9 +14,19 @@ class BoxItem {
       this.amount,
       this.expirationDate});
 
+  BoxItem copy() {
+    return BoxItem(
+        id: this.id,
+        title: this.title,
+        author: this.author,
+        category: this.category,
+        amount: this.amount,
+        expirationDate: this.expirationDate);
+  }
+
   // Эти значения забираются из базы и по ним мы заполняем поля в меню
   BoxItem.fromJson(String id, Map<String, dynamic> data) {
-    id = id;
+    this.id = id;
     title = data['title'];
     author = data['author'];
     category = data['category'];

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:products_control/screens/addBoxItem.dart';
 import 'package:provider/provider.dart';
 import 'package:products_control/models/user.dart';
-import 'package:products_control/models/data.dart';
+import 'package:products_control/models/boxData.dart';
 import 'package:products_control/services/database.dart';
 import 'dart:async';
 
@@ -38,7 +39,6 @@ class _BoxItemsListState extends State<BoxItemsList> {
   var filterCategory = 'Все продукты';
 
   void filter(bool clear) {
-    print("Filter");
     if (clear) {
       filterCategory = 'Все продукты';
     }
@@ -58,12 +58,12 @@ class _BoxItemsListState extends State<BoxItemsList> {
     boxItemsStreamSubscription = stream.listen((List<BoxItem> data) {
       setState(() {
         if (isFiltered) {
-          print("YES");
+          print("В МЕНЮ");
           boxItems = data;
           isFiltered = false;
         } else {
           boxItemsStreamSubscription.cancel();
-          print("NO");
+          print("НЕ В МЕНЮ");
           loadData();
         }
       });
@@ -81,19 +81,23 @@ class _BoxItemsListState extends State<BoxItemsList> {
     // loadData();
     //ЭТО НАДО РЕШИТЬ!!!!!!!!!!!!!!!!!!!
     var filterInfo = Container(
+      color: Colors.deepPurple,
       margin: EdgeInsets.only(top: 10, left: 7, right: 7, bottom: 10),
-      decoration: BoxDecoration(color: Colors.deepPurple),
       height: 50,
       child: RaisedButton(
+        color: Colors.deepPurple,
         child: Row(
           children: <Widget>[
-            Icon(Icons.filter_list),
+            Icon(
+              Icons.filter_list,
+              color: Colors.white,
+            ),
             SizedBox(
               width: 30,
             ),
             Text(
               filterText,
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20, color: Colors.white),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
             ),
@@ -173,15 +177,15 @@ class _BoxItemsListState extends State<BoxItemsList> {
       height: filterHeight,
     );
 
-    var widgetsList = Expanded(
+    var boxItemsList = Expanded(
       child: ListView.builder(
           itemCount: boxItems.length,
           itemBuilder: (context, i) {
             return InkWell(
-              // onTap: () {
-              //   Navigator.of(context).push(MaterialPageRoute(
-              //       builder: (ctx) => WorkoutDetails(id: workouts[i].id)));
-              // },
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (ctx) => AddBoxItem(boxItem: boxItems[i])));
+              },
               child: Card(
                 key: Key(boxItems[i].id),
                 elevation: 2.0,
@@ -214,7 +218,7 @@ class _BoxItemsListState extends State<BoxItemsList> {
     return Column(children: [
       filterInfo,
       filterForm,
-      widgetsList,
+      boxItemsList,
     ]);
   }
 }

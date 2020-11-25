@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'data.dart';
+import 'boxData.dart';
 
 class User {
   String id;

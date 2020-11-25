@@ -1,12 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:products_control/components/boxItems-list.dart';
+import 'file:///C:/Users/lokod/AndroidStudioProjects/products_control/lib/widgets/boxItemsList.dart';
 import 'package:products_control/widgets/tappableCard.dart';
 import '../widgets/pageTitle.dart';
 import '../widgets/pageSubtitle.dart';
 import '../widgets/fullScreenOverlay.dart';
-import '../widgets/createBoxItemForm.dart';
+import 'addBoxItem.dart';
 
 class BoxScreen extends StatelessWidget {
 // Each screen that has a floating action button will have this method
@@ -33,7 +33,7 @@ class BoxScreen extends StatelessWidget {
       FullScreenOverlay(
         RouteSettings(
           arguments: FullScreenOverlayRouteArguments(
-            CreateBoxItemForm(),
+            AddBoxItem(),
           ),
         ),
         ImageFilter.blur(),
@@ -43,143 +43,6 @@ class BoxScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BoxItemsList()
-    );
+    return Scaffold(body: BoxItemsList());
   }
 }
-//         body: Padding(
-//             padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
-//             child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: <Widget>[
-//                   Padding(
-//                     padding: EdgeInsets.symmetric(
-//                       vertical: 40.0,
-//                     ),
-//                     child: PageTitle(
-//                       text: 'Моя коробка',
-//                     ),
-//                   ),
-//                   Column(
-//                     mainAxisAlignment: MainAxisAlignment.start,
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: <Widget>[
-//                       PageSubtitle(
-//                         text: 'Товары',
-//                         topPadding: 0.0,
-//                       ),
-//                       Column(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: <Widget>[BoxItemsList()])
-//                     ],
-//                   )
-//                 ])));
-//   }
-// }
-
-
-
-
-
-
-
-//       body: Padding(
-//         padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: <Widget>[
-//             Padding(
-//               padding: EdgeInsets.symmetric(
-//                 vertical: 40.0,
-//               ),
-//               child: PageTitle(
-//                 text: 'Моя коробка',
-//               ),
-//             ),
-//             Column(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: <Widget>[
-//                 PageSubtitle(
-//                   text: 'Товары',
-//                   topPadding: 0.0,
-//                 ),
-// )
-// )
-// )
-
-//       TappableCard(
-//         children: <Widget>[
-//           ListTile(
-//             leading: Icon(Icons.kitchen),
-//             contentPadding: EdgeInsets.symmetric(
-//               horizontal: 15.0,
-//             ),
-//             title: Text("Яйца"),
-//             subtitle: Text("10 штук"),
-//             trailing: Text(
-//               '1',
-//               style: TextStyle(
-//                 fontSize: 26.0,
-//               ),
-//             ),
-//           ),
-//         ],
-//         onTap: () {
-//           print('Tapped');
-//         },
-//       ),
-//       TappableCard(
-//         children: <Widget>[
-//           ListTile(
-//             leading: Icon(Icons.kitchen),
-//             contentPadding: EdgeInsets.symmetric(
-//               horizontal: 15.0,
-//             ),
-//             title: Text("Молоко"),
-//             subtitle: Text("Простоквашино 1л"),
-//             trailing: Text(
-//               '2',
-//               style: TextStyle(
-//                 fontSize: 26.0,
-//               ),
-//             ),
-//           ),
-//         ],
-//         onTap: () {
-//           print('Tapped');
-//         },
-//       ),
-//       TappableCard(
-//         children: <Widget>[
-//           ListTile(
-//             leading: Icon(Icons.kitchen),
-//             contentPadding: EdgeInsets.symmetric(
-//               horizontal: 15.0,
-//             ),
-//             title: Text("Хлеб"),
-//             subtitle: Text("Батон нарезной"),
-//             trailing: Text(
-//               '1',
-//               style: TextStyle(
-//                 fontSize: 26.0,
-//               ),
-//             ),
-//           ),
-//         ],
-//         onTap: () {
-//           print('Tapped');
-//         },
-//       ),
-//               ],
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

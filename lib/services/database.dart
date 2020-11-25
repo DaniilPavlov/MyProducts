@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:products_control/models/data.dart';
-import 'package:products_control/models/user.dart';
+import 'package:products_control/models/boxData.dart';
+import 'package:products_control/models/checkListData.dart';
 
 class DatabaseService {
   final CollectionReference _checkListCollection =
@@ -13,21 +13,12 @@ class DatabaseService {
   Future addOrUpdateBoxItem(BoxItem boxItem) async {
     DocumentReference boxItemRef = _boxItemCollection.document(boxItem.id);
 
-// Берем ссылку на документ по schedule.id. Она позволит потом достать кусочек данных без неделей
-// Кусочек будет хранить название, описание, автора, доступность и дату создания (показывается в меню)
+// Берем ссылку на документ по boxItem.id. Она позволит потом достать кусочек данных без товаров
+// Кусочек будет хранить название, описание, автора, и дату создания (показывается в меню)
     return boxItemRef.setData(boxItem.toBoxItemMap());
-
-    // Сохраняем кусочек по ссылке в коллекцию workouts.
-    // var docId = boxItemRef.documentID;
-
-    // Теперь достаем айди этого воркаута ( .then((_)) )
-    // После этого сохраняем в коллекцию workoutSchedules по этому айди (там будут полные данные)
-    // await _boxItemCollection
-    //     .document(docId)
-    //     .setData(boxItem.toMap());
   }
 
-  // Возвращает список воркаутов в меню. Есть поддержка фильтрации (уровень и автор)
+  // Возвращает список элементов в коробку. Есть поддержка фильтрации
   Stream<List<BoxItem>> getBoxItems({String author, String category}) {
     // Query - запрос о данных в конкретном месте
     Query query;
@@ -44,20 +35,36 @@ class DatabaseService {
         .toList());
   }
 
-  Future<BoxItem> getBoxItem(String id) async {
-    var doc = await _boxItemCollection.document(id).get();
-    return BoxItem.fromJson(doc.documentID, doc.data);
+  Future addOrUpdateCheckList(CheckList checkList) async {
+    DocumentReference checkListRef =
+        _checkListCollection.document(checkList.id);
+
+    return checkListRef.setData(checkList.toCheckListMap());
   }
+
+  // Возвращает список списков
+  Stream<List<CheckList>> getCheckLists({String author}) {
+
+    Query query;
+    if (author != null)
+      query = _checkListCollection.where('author', isEqualTo: author);
+
+    return query.snapshots().map((QuerySnapshot data) => data.documents
+        .map((DocumentSnapshot doc) =>
+            CheckList.fromJson(doc.documentID, doc.data))
+        .toList());
+  }
+
 
 // User Data
 
 //Обновление профиля
-  Future updateUserData(User user) async {
-    //берем весь текущий объект userData
-    final userData = user.userData.toMap();
-    //сериализуем (перевода структуры данных в последовательность битов) и сохраняем
-    await _userDataCollection.document(user.id).setData(userData);
-  }
+//   Future updateUserData(User user) async {
+//     //берем весь текущий объект userData
+//     final userData = user.userData.toMap();
+//     //сериализуем (перевода структуры данных в последовательность битов) и сохраняем
+//     await _userDataCollection.document(user.id).setData(userData);
+//   }
 //
 //   Future addUserBoxItem(User user, BoxItem boxItem) async {
 //     //описание методов fromWorkout/addUserWorkout смотреть через ctrl

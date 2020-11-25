@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:products_control/components/boxItems-list.dart';
+import 'file:///C:/Users/lokod/AndroidStudioProjects/products_control/lib/widgets/boxItemsList.dart';
 import '../services/auth.dart';
 import '../widgets/bottomNavBar.dart';
 import './box.dart';
@@ -47,16 +47,43 @@ class _NavContainerScreenState extends State<NavContainerScreen> {
       _floatingActionButton = _boxScreen.renderFloatingActionButton(context);
     }
 
+    Future<bool> _onExitPressed() {
+      return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                  title: Text(
+                    "Меняем пользователя?",
+                    style: TextStyle(color: Colors.deepPurple),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                        child: Text("Да"),
+                        color: Colors.deepPurple,
+                        onPressed: () {
+                          AuthService().logOut();
+                          Navigator.pop(context, true);
+                        }),
+                    SizedBox(
+                      width: 100,
+                    ),
+                    FlatButton(
+                      child: Text("Нет"),
+                      color: Colors.deepPurple,
+                      onPressed: () => Navigator.pop(context, false),
+                    ),
+                  ]));
+    }
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text("MyProducts", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.deepPurple,
+        title: Text("MyProducts", style: TextStyle(color: Colors.white)),
         actions: <Widget>[
           FlatButton.icon(
               onPressed: () {
-                AuthService().logOut();
+                _onExitPressed();
               },
-              icon: Icon(Icons.exit_to_app, color: Colors.black38),
+              icon: Icon(Icons.exit_to_app, color: Colors.white),
               label: SizedBox.shrink())
         ],
       ),

@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:products_control/models/checkListData.dart';
 
-class CreateCheckListForm extends StatefulWidget {
-  CreateCheckListForm({Key key}) : super(key: key);
+class AddCheckListItem extends StatefulWidget {
+  final CheckListItem checkListItem;
+
+  AddCheckListItem({Key key, this.checkListItem}) : super(key: key);
 
   @override
-  _CreateCheckListFormState createState() => _CreateCheckListFormState();
+  _AddCheckListItemState createState() => _AddCheckListItemState();
 }
 
-class _CreateCheckListFormState extends State<CreateCheckListForm> {
-  final _formKey = GlobalKey<FormState>();
-  String dropdownValue = '(Коробка) Моя коробка';
+class _AddCheckListItemState extends State<AddCheckListItem> {
+  final _formKey = GlobalKey<FormBuilderState>();
+  CheckListItem checkListItem = CheckListItem();
+
+  @override
+  void initState() {
+    if (widget.checkListItem != null)
+      checkListItem = widget.checkListItem.copy();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Scaffold(
+        body: FormBuilder(
       key: _formKey,
+      autovalidate: false,
+      initialValue: {},
+      readOnly: false,
       child: Container(
         padding: EdgeInsets.all(
           20.0,
@@ -22,27 +37,28 @@ class _CreateCheckListFormState extends State<CreateCheckListForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(
-              'Добавляем новый список',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 42.0,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            // Text(
+            //   'Добавляем новый продукт',
+            //   style: TextStyle(
+            //     color: Colors.black,
+            //     fontSize: 45.0,
+            //     fontWeight: FontWeight.w700,
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 30.0,
                 vertical: 30.0,
               ),
               child: TextFormField(
+                initialValue: checkListItem.title,
                 cursorColor: Colors.black,
                 style: TextStyle(
                   fontSize: 20,
                 ),
                 decoration: const InputDecoration(
-                  labelText: 'Название',
-                  hintText: 'Продукты для завтрака',
+                  labelText: 'Продукт',
+                  hintText: 'Продукт',
                   labelStyle: TextStyle(
                     fontSize: 26.0,
                     color: Colors.black,
@@ -60,9 +76,14 @@ class _CreateCheckListFormState extends State<CreateCheckListForm> {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
+                onChanged: (dynamic val) {
+                  setState(() {
+                    checkListItem.title = val;
+                  });
+                },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Пожалуйста введите название';
+                    return 'Пожалуйста введите продукт';
                   }
                   return null;
                 },
@@ -75,13 +96,14 @@ class _CreateCheckListFormState extends State<CreateCheckListForm> {
                 bottom: 30.0,
               ),
               child: TextFormField(
+                initialValue: checkListItem.amount,
                 cursorColor: Colors.black,
                 style: TextStyle(
                   fontSize: 20,
                 ),
                 decoration: const InputDecoration(
-                  labelText: 'Описание',
-                  hintText: 'Только полезные продукты',
+                  labelText: 'Количество',
+                  hintText: '0',
                   labelStyle: TextStyle(
                     fontSize: 26.0,
                     color: Colors.black,
@@ -99,9 +121,14 @@ class _CreateCheckListFormState extends State<CreateCheckListForm> {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
+                onChanged: (dynamic val) {
+                  setState(() {
+                    checkListItem.amount = val;
+                  });
+                },
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Пожалуйста введите описание';
+                  if (value.isEmpty || int.tryParse(value) == null) {
+                    return 'Пожалуйста введите число';
                   }
                   return null;
                 },
@@ -115,12 +142,10 @@ class _CreateCheckListFormState extends State<CreateCheckListForm> {
                   height: 60.0,
                   child: RaisedButton(
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        // Process data
-                      }
+                      Navigator.of(context).pop(checkListItem);
                     },
                     child: Text(
-                      'Добавить',
+                      'Сохранить',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 26.0,
@@ -151,6 +176,6 @@ class _CreateCheckListFormState extends State<CreateCheckListForm> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
