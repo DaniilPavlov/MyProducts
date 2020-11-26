@@ -5,8 +5,6 @@ import 'package:products_control/widgets/checkListsList.dart';
 import 'addCheckList.dart';
 
 class CheckListsScreen extends StatelessWidget {
-  // Each screen that has a floating action button will have this method
-  // TODO: see if creating a wrapper component for the FAB is necessary
   Widget renderFloatingActionButton(BuildContext context) {
     return Container(
       height: 70.0,

@@ -11,18 +11,13 @@ class PageTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 5.0,
-      ),
-      child: Text(
-        text,
-        textAlign: TextAlign.left,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 48.0,
-          fontWeight: FontWeight.w600,
-        ),
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 48.0,
+        fontWeight: FontWeight.w600,
       ),
     );
   }

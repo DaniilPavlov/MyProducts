@@ -11,12 +11,11 @@ class _LoadingState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-          color: Colors.white,
-          child: SpinKitRing(
-            color: Colors.black,
-            size: 50.0,
-          ),
-        )
-    );
+      color: Colors.white,
+      child: SpinKitRing(
+        color: Colors.black,
+        size: 50.0,
+      ),
+    ));
   }
 }

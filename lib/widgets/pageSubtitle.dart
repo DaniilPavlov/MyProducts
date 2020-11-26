@@ -15,7 +15,6 @@ class PageSubtitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: 5.0,
         bottom: 10.0,
         top: topPadding,
       ),

@@ -36,10 +36,10 @@ class FullScreenOverlay extends ModalRoute<void> {
 
   @override
   Widget buildPage(
-      BuildContext context,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-      ) {
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
     // This makes sure that text and other content follows the material style
     return Material(
       type: MaterialType.transparency,

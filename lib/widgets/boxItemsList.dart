@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:products_control/screens/addBoxItem.dart';
+import 'package:products_control/widgets/pageTitle.dart';
 import 'package:provider/provider.dart';
 import 'package:products_control/models/user.dart';
 import 'package:products_control/models/boxData.dart';
@@ -77,12 +78,10 @@ class _BoxItemsListState extends State<BoxItemsList> {
       loadData();
       start = false;
     }
-    //ЭТО НАДО РЕШИТЬ!!!!!!!!!!!!!!!!!!!
-    // loadData();
-    //ЭТО НАДО РЕШИТЬ!!!!!!!!!!!!!!!!!!!
+
     var filterInfo = Container(
       color: Colors.deepPurple,
-      margin: EdgeInsets.only(top: 10, left: 7, right: 7, bottom: 10),
+      margin: EdgeInsets.only(left: 7, right: 7, bottom: 10),
       height: 50,
       child: RaisedButton(
         color: Colors.deepPurple,
@@ -220,14 +219,27 @@ class _BoxItemsListState extends State<BoxItemsList> {
               child: Card(
                 key: Key(boxItems[i].id),
                 elevation: 2.0,
-                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: Container(
                   child: ListTile(
-                    leading: Icon(Icons.kitchen),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 15.0,
-                    ),
-                    title: Text(boxItems[i].title),
+                    leading: Container(
+                        margin: EdgeInsets.all(5),
+                        child: Icon(
+                          Icons.favorite_border,
+                          size: 35,
+                        )),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+                    title: Container(
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        child: Text(
+                          boxItems[i].title,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )),
                     subtitle: Text(boxItems[i].expirationDate),
                     trailing: Text(
                       boxItems[i].amount,
@@ -247,6 +259,14 @@ class _BoxItemsListState extends State<BoxItemsList> {
     );
 
     return Column(children: [
+      Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: 20.0,
+        ),
+        child: PageTitle(
+          text: 'Мои товары',
+        ),
+      ),
       filterInfo,
       filterForm,
       boxItemsList,

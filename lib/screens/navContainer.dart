@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/lokod/AndroidStudioProjects/products_control/lib/widgets/boxItemsList.dart';
 import '../services/auth.dart';
 import '../widgets/bottomNavBar.dart';
 import './box.dart';

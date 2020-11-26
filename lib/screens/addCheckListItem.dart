@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:products_control/models/checkListData.dart';
-import 'package:products_control/services/database.dart';
 
 class AddCheckListItem extends StatefulWidget {
   final CheckListItem checkListItem;

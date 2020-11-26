@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:products_control/screens/addCheckListItem.dart';
 import 'package:products_control/models/checkListData.dart';
 import 'package:products_control/models/user.dart';
 import 'package:products_control/services/database.dart';
-import 'package:products_control/widgets/saveButton.dart';
 import 'package:products_control/widgets/toast.dart';
 import 'package:provider/provider.dart';
 

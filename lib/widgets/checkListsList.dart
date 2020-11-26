@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:products_control/models/checkListData.dart';
 import 'package:products_control/screens/addCheckList.dart';
+import 'package:products_control/widgets/pageTitle.dart';
 import 'package:provider/provider.dart';
 import 'package:products_control/models/user.dart';
 import 'package:products_control/services/database.dart';
@@ -47,28 +48,28 @@ class _CheckListsListState extends State<CheckListsList> {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-            title: Text(
-              "Точно удаляем список?",
-              style: TextStyle(color: Colors.deepPurple),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  child: Text("Да"),
-                  color: Colors.deepPurple,
-                  onPressed: () {
-                    print("da");
-                    DatabaseService().deleteCheckList(checkList);
-                    Navigator.pop(context, true);
-                  }),
-              SizedBox(
-                width: 100,
-              ),
-              FlatButton(
-                child: Text("Нет"),
-                color: Colors.deepPurple,
-                onPressed: () => Navigator.pop(context, false),
-              ),
-            ]));
+                title: Text(
+                  "Точно удаляем список?",
+                  style: TextStyle(color: Colors.deepPurple),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                      child: Text("Да"),
+                      color: Colors.deepPurple,
+                      onPressed: () {
+                        print("da");
+                        DatabaseService().deleteCheckList(checkList);
+                        Navigator.pop(context, true);
+                      }),
+                  SizedBox(
+                    width: 100,
+                  ),
+                  FlatButton(
+                    child: Text("Нет"),
+                    color: Colors.deepPurple,
+                    onPressed: () => Navigator.pop(context, false),
+                  ),
+                ]));
   }
 
   @override
@@ -100,7 +101,7 @@ class _CheckListsListState extends State<CheckListsList> {
                 margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Container(
                   child: ListTile(
-                    leading: Icon(Icons.kitchen),
+                    leading: Icon(Icons.list),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 15.0,
                     ),
@@ -117,6 +118,14 @@ class _CheckListsListState extends State<CheckListsList> {
     );
 
     return Column(children: [
+      Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: 20.0,
+        ),
+        child: PageTitle(
+          text: 'Мои списки покупок',
+        ),
+      ),
       checkListsList,
     ]);
   }

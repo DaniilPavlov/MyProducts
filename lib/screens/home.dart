@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:products_control/services/auth.dart';
 import '../widgets/pageTitle.dart';
 import '../widgets/pageSubtitle.dart';
 import '../widgets/tappableCard.dart';
@@ -7,7 +6,6 @@ import '../widgets/tappableCard.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key key}) : super(key: key);
 
-// TODO: Map cards over dummy data
   @override
   Widget build(BuildContext context) {
     return Container(
