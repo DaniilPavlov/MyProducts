@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:products_control/models/checkListData.dart';
+import 'package:products_control/services/database.dart';
 
 class AddCheckListItem extends StatefulWidget {
   final CheckListItem checkListItem;
@@ -20,6 +21,13 @@ class _AddCheckListItemState extends State<AddCheckListItem> {
     if (widget.checkListItem != null)
       checkListItem = widget.checkListItem.copy();
     super.initState();
+  }
+
+  void _saveCheckListItem() async {
+    if (_formKey.currentState.saveAndValidate()) {
+      print("lol");
+      Navigator.of(context).pop(checkListItem);
+    }
   }
 
   @override
@@ -142,7 +150,7 @@ class _AddCheckListItemState extends State<AddCheckListItem> {
                   height: 60.0,
                   child: RaisedButton(
                     onPressed: () {
-                      Navigator.of(context).pop(checkListItem);
+                      _saveCheckListItem();
                     },
                     child: Text(
                       'Сохранить',

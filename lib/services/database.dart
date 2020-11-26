@@ -5,6 +5,8 @@ import 'package:products_control/models/checkListData.dart';
 class DatabaseService {
   final CollectionReference _checkListCollection =
       Firestore.instance.collection('checkLists');
+  final CollectionReference _checkListItemCollection =
+  Firestore.instance.collection('checkListItems');
   final CollectionReference _boxItemCollection =
       Firestore.instance.collection('boxItems');
   final CollectionReference _userDataCollection =
@@ -19,7 +21,7 @@ class DatabaseService {
   }
 
   Future deleteBoxItem(BoxItem boxItem) async {
-    print("auf");
+    print("delete box item");
     DocumentReference boxItemRef = _boxItemCollection.document(boxItem.id);
 
 // Берем ссылку на документ по boxItem.id. Она позволит потом достать кусочек данных без товаров
@@ -48,7 +50,17 @@ class DatabaseService {
     DocumentReference checkListRef =
         _checkListCollection.document(checkList.id);
 
+
     return checkListRef.setData(checkList.toCheckListMap());
+  }
+
+  Future deleteCheckList(CheckList checkList) async {
+    print("delete check list");
+    DocumentReference checkListRef = _checkListCollection.document(checkList.id);
+
+// Берем ссылку на документ по boxItem.id. Она позволит потом достать кусочек данных без товаров
+// Кусочек будет хранить название, описание, автора, и дату создания (показывается в меню)
+    return checkListRef.delete();
   }
 
   // Возвращает список списков
@@ -60,6 +72,34 @@ class DatabaseService {
     return query.snapshots().map((QuerySnapshot data) => data.documents
         .map((DocumentSnapshot doc) =>
             CheckList.fromJson(doc.documentID, doc.data))
+        .toList());
+  }
+
+  Future addOrUpdateCheckListItem(CheckListItem checkListItem) async {
+    print("update check list item");
+    DocumentReference checkListItemRef =
+    _checkListItemCollection.document(checkListItem.id);
+
+    return checkListItemRef.setData(checkListItem.toCheckListItemMap());
+  }
+
+
+  Future deleteCheckListItem(CheckListItem checkListItem) {
+    print("delete check list item");
+    print(checkListItem.id);
+   DocumentReference checkListItemRef = _checkListItemCollection.document(checkListItem.id);
+    return checkListItemRef.delete();
+  }
+
+  // Возвращает список товаров в списке
+  Stream<List<CheckListItem>> getCheckListItems({String listId}) {
+    Query query;
+    if (listId != null)
+      query = _checkListItemCollection.where('listId', isEqualTo: listId);
+
+    return query.snapshots().map((QuerySnapshot data) => data.documents
+        .map((DocumentSnapshot doc) =>
+        CheckListItem.fromJson(doc.documentID, doc.data))
         .toList());
   }
 

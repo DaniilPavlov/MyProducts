@@ -5,18 +5,20 @@ class CheckList {
   String title;
   String author;
   String description;
-  List<CheckListItem> items;
 
-  CheckList({this.id, this.author, this.title, this.description, this.items});
+  // List<CheckListItem> items;
+
+  CheckList({this.id, this.author, this.title, this.description});
 
   CheckList copy() {
-    var copiedItems = items.map((w) => w.copy()).toList();
+    // var copiedItems = items.map((w) => w.copy()).toList();
     return CheckList(
-        id: this.id,
-        author: this.author,
-        title: this.title,
-        description: this.description,
-        items: copiedItems);
+      id: this.id,
+      author: this.author,
+      title: this.title,
+      description: this.description,
+      // items: copiedItems
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -24,7 +26,7 @@ class CheckList {
       "title": title,
       "description": description,
       "author": author,
-      "items": items.map((w) => w.toMap()).toList()
+      // "items": items.map((w) => w.toMap()).toList()
     };
   }
 
@@ -34,7 +36,7 @@ class CheckList {
       "title": title,
       "description": description,
       "author": author,
-      "items": items.map((w) => w.toMap()).toList()
+      // "items": items.map((w) => w.toMap()).toList()
     };
   }
 
@@ -44,31 +46,44 @@ class CheckList {
     title = data['title'];
     author = data['author'];
     description = data['description'];
-    items =
-        (data['items'] as List).map((w) => CheckListItem.fromJson(w)).toList();
+    // items =
+    //     (data['items'] as List).map((w) => CheckListItem.fromJson(w)).toList();
   }
 }
 
 class CheckListItem {
+  String id;
+  String listId;
   String title;
   String amount;
 
-  CheckListItem({this.title, this.amount});
+  CheckListItem({this.id, this.listId, this.title, this.amount});
 
   CheckListItem copy() {
-    return CheckListItem(title: title, amount: amount);
+    return CheckListItem(id: this.id, listId: this.listId, title: this.title, amount: this.amount);
   }
 
   // Эти значения забираются в базу
   Map<String, dynamic> toMap() {
     return {
+      "listId": listId,
+      "title": title,
+      "amount": amount,
+    };
+  }
+
+  Map<String, dynamic> toCheckListItemMap() {
+    return {
+      "listId": listId,
       "title": title,
       "amount": amount,
     };
   }
 
   //метод fromJson забирает значения из базы
-  CheckListItem.fromJson(Map<String, dynamic> value) {
+  CheckListItem.fromJson(String id,Map<String, dynamic> value) {
+    this.id = id;
+    listId = value['listId'];
     title = value['title'];
     amount = value['amount'];
   }

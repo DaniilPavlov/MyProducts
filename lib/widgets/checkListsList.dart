@@ -43,6 +43,34 @@ class _CheckListsListState extends State<CheckListsList> {
     });
   }
 
+  Future<bool> _deleteCheckList(checkList) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+            title: Text(
+              "Точно удаляем список?",
+              style: TextStyle(color: Colors.deepPurple),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                  child: Text("Да"),
+                  color: Colors.deepPurple,
+                  onPressed: () {
+                    print("da");
+                    DatabaseService().deleteCheckList(checkList);
+                    Navigator.pop(context, true);
+                  }),
+              SizedBox(
+                width: 100,
+              ),
+              FlatButton(
+                child: Text("Нет"),
+                color: Colors.deepPurple,
+                onPressed: () => Navigator.pop(context, false),
+              ),
+            ]));
+  }
+
   @override
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);
@@ -62,6 +90,9 @@ class _CheckListsListState extends State<CheckListsList> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (ctx) => AddCheckList(checkList: checkLists[i])));
+              },
+              onLongPress: () {
+                _deleteCheckList(checkLists[i]);
               },
               child: Card(
                 key: Key(checkLists[i].id),
