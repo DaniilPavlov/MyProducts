@@ -177,6 +177,34 @@ class _BoxItemsListState extends State<BoxItemsList> {
       height: filterHeight,
     );
 
+    Future<bool> _deleteProduct(boxItem) {
+      return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                  title: Text(
+                    "Точно удаляем продукт?",
+                    style: TextStyle(color: Colors.deepPurple),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                        child: Text("Да"),
+                        color: Colors.deepPurple,
+                        onPressed: () {
+                          print("da");
+                          DatabaseService().deleteBoxItem(boxItem);
+                          Navigator.pop(context, true);
+                        }),
+                    SizedBox(
+                      width: 100,
+                    ),
+                    FlatButton(
+                      child: Text("Нет"),
+                      color: Colors.deepPurple,
+                      onPressed: () => Navigator.pop(context, false),
+                    ),
+                  ]));
+    }
+
     var boxItemsList = Expanded(
       child: ListView.builder(
           itemCount: boxItems.length,
@@ -185,6 +213,9 @@ class _BoxItemsListState extends State<BoxItemsList> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (ctx) => AddBoxItem(boxItem: boxItems[i])));
+              },
+              onLongPress: () {
+                _deleteProduct(boxItems[i]);
               },
               child: Card(
                 key: Key(boxItems[i].id),

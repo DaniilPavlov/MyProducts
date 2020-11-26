@@ -438,7 +438,7 @@ class _AddBoxItemState extends State<AddBoxItem> {
                         });
                       },
                       validator: (val) {
-                        if (val.isEmpty) {
+                        if (val == null) {
                           return 'Пожалуйста выберите категорию';
                         }
                         return null;

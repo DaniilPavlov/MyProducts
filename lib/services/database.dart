@@ -18,6 +18,15 @@ class DatabaseService {
     return boxItemRef.setData(boxItem.toBoxItemMap());
   }
 
+  Future deleteBoxItem(BoxItem boxItem) async {
+    print("auf");
+    DocumentReference boxItemRef = _boxItemCollection.document(boxItem.id);
+
+// Берем ссылку на документ по boxItem.id. Она позволит потом достать кусочек данных без товаров
+// Кусочек будет хранить название, описание, автора, и дату создания (показывается в меню)
+    return boxItemRef.delete();
+  }
+
   // Возвращает список элементов в коробку. Есть поддержка фильтрации
   Stream<List<BoxItem>> getBoxItems({String author, String category}) {
     // Query - запрос о данных в конкретном месте
@@ -44,7 +53,6 @@ class DatabaseService {
 
   // Возвращает список списков
   Stream<List<CheckList>> getCheckLists({String author}) {
-
     Query query;
     if (author != null)
       query = _checkListCollection.where('author', isEqualTo: author);
@@ -54,7 +62,6 @@ class DatabaseService {
             CheckList.fromJson(doc.documentID, doc.data))
         .toList());
   }
-
 
 // User Data
 
