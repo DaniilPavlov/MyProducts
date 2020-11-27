@@ -49,17 +49,17 @@ class DatabaseService {
   Future addOrUpdateCheckList(CheckList checkList) async {
     DocumentReference checkListRef =
         _checkListCollection.document(checkList.id);
-
-    return checkListRef.setData(checkList.toCheckListMap());
+    checkListRef.setData(checkList.toCheckListMap());
+    return checkList.id = checkListRef.documentID;
   }
 
   Future deleteCheckList(CheckList checkList) async {
     print("delete check list");
     DocumentReference checkListRef =
         _checkListCollection.document(checkList.id);
-
     return checkListRef.delete();
   }
+
 
   // Возвращает список списков
   Stream<List<CheckList>> getCheckLists({String author}) {
@@ -73,12 +73,23 @@ class DatabaseService {
         .toList());
   }
 
+  // // Возвращает список
+  // Stream<List<CheckList>> getCheckList({String id}) {
+  //   Query query;
+  //   if (id != null) query = _checkListCollection.where('id', isEqualTo: id);
+  //
+  //   return query.snapshots().map((QuerySnapshot data) => data.documents.map(
+  //       (DocumentSnapshot doc) =>
+  //           CheckList.fromJson(doc.documentID, doc.data)));
+  // }
+
   Future addOrUpdateCheckListItem(CheckListItem checkListItem) async {
     print("update check list item");
     DocumentReference checkListItemRef =
         _checkListItemCollection.document(checkListItem.id);
 
-    return checkListItemRef.setData(checkListItem.toCheckListItemMap());
+    checkListItemRef.setData(checkListItem.toCheckListItemMap());
+    return checkListItem.id = checkListItemRef.documentID;
   }
 
   Future deleteCheckListItem(CheckListItem checkListItem) {

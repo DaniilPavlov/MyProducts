@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:products_control/models/checkListData.dart';
 import 'package:products_control/screens/addCheckList.dart';
@@ -58,7 +59,18 @@ class _CheckListsListState extends State<CheckListsList> {
                       color: Colors.deepPurple,
                       onPressed: () {
                         print("da");
+                        CollectionReference _checkListItemCollection =
+                            Firestore.instance.collection('checkListItems');
+                        Query query = _checkListItemCollection.where('listId',
+                            isEqualTo: checkList.id);
+                        query.getDocuments().then((snapshot) {
+                          for (DocumentSnapshot ds in snapshot.documents) {
+                            print(ds.reference);
+                            ds.reference.delete();
+                          }
+                        });
                         DatabaseService().deleteCheckList(checkList);
+
                         Navigator.pop(context, true);
                       }),
                   SizedBox(

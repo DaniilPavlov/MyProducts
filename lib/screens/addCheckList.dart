@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:products_control/screens/addCheckListItem.dart';
@@ -21,15 +22,15 @@ class AddCheckList extends StatefulWidget {
 class _AddCheckListState extends State<AddCheckList> {
   final _fbKey = GlobalKey<FormBuilderState>();
   User user;
-  CheckList checkList = CheckList();
+  var checkList = CheckList();
   bool isOld = false;
   bool start = true;
 
   @override
   void initState() {
-    if (widget.checkList != null) {
+    checkList = widget.checkList.copy();
+    if (checkList.title != null) {
       isOld = true;
-      checkList = widget.checkList.copy();
     }
     super.initState();
   }
@@ -51,7 +52,7 @@ class _AddCheckListState extends State<AddCheckList> {
   @override
   void dispose() {
     if (checkListItemsStreamSubscription != null) {
-      print('unsubscribing');
+      print('unsubscribing1');
       checkListItemsStreamSubscription.cancel();
     }
     super.dispose();
@@ -73,6 +74,8 @@ class _AddCheckListState extends State<AddCheckList> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);
@@ -86,10 +89,7 @@ class _AddCheckListState extends State<AddCheckList> {
           // You can do some work here.
           // Returning true allows the pop to happen, returning false prevents it.
           if (_fbKey.currentState.saveAndValidate()) {
-            if (checkList.id == null) {
-              checkList.author = user.id;
-            }
-
+            checkList.author = user.id;
             await DatabaseService().addOrUpdateCheckList(checkList);
             Navigator.of(context).pop(checkList);
           } else {
@@ -108,11 +108,13 @@ class _AddCheckListState extends State<AddCheckList> {
               onPressed: () async {
                 var item = await Navigator.push<CheckListItem>(context,
                     MaterialPageRoute(builder: (ctx) => AddCheckListItem()));
-                if (item != null)
+                if (item != null){
                   setState(() {
                     item.listId = checkList.id;
                     DatabaseService().addOrUpdateCheckListItem(item);
-                  });
+                    print(item.id);
+                    loadData();
+                  });}
               },
             ),
             body: SingleChildScrollView(
