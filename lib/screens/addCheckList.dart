@@ -74,8 +74,6 @@ class _AddCheckListState extends State<AddCheckList> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);
@@ -86,14 +84,28 @@ class _AddCheckListState extends State<AddCheckList> {
 
     return WillPopScope(
         onWillPop: () async {
+          checkList.author = user.id;
           // You can do some work here.
           // Returning true allows the pop to happen, returning false prevents it.
           if (_fbKey.currentState.saveAndValidate()) {
-            checkList.author = user.id;
             await DatabaseService().addOrUpdateCheckList(checkList);
             Navigator.of(context).pop(checkList);
           } else {
-            buildToast('Пустой список не был создан');
+            if (checkList.description == null)
+              checkList.description = "Без описания";
+            if (isOld && checkList.title == null) {
+              checkList.title = "Без названия";
+              buildToast('У измененного списка отсутствует название');
+              await DatabaseService().addOrUpdateCheckList(checkList);
+              Navigator.of(context).pop(checkList);
+            } else if (checkList.title != null) {
+              await DatabaseService().addOrUpdateCheckList(checkList);
+              Navigator.of(context).pop(checkList);
+            } else {
+              buildToast(
+                  'Новый список не был создан из-за отсутствия названия');
+              DatabaseService().deleteCheckList(checkList);
+            }
           }
           return true;
         },
@@ -108,13 +120,14 @@ class _AddCheckListState extends State<AddCheckList> {
               onPressed: () async {
                 var item = await Navigator.push<CheckListItem>(context,
                     MaterialPageRoute(builder: (ctx) => AddCheckListItem()));
-                if (item != null){
+                if (item != null) {
                   setState(() {
                     item.listId = checkList.id;
                     DatabaseService().addOrUpdateCheckListItem(item);
                     print(item.id);
                     loadData();
-                  });}
+                  });
+                }
               },
             ),
             body: SingleChildScrollView(
