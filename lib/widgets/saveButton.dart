@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:products_control/widgets/toast.dart';
 
 class SaveButton extends StatelessWidget {
   final Function onPressed;
@@ -13,6 +14,7 @@ class SaveButton extends StatelessWidget {
           side: BorderSide(color: Colors.deepPurple)),
       onPressed: () {
         onPressed();
+        buildToast('Список сохранен');
       },
       color: Colors.deepPurple,
       textColor: Colors.white,

@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:products_control/models/checkListData.dart';
 import 'package:products_control/screens/addCheckList.dart';
 import 'package:products_control/widgets/pageTitle.dart';
+import 'package:products_control/widgets/shareIcon.dart';
+import 'package:products_control/widgets/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:products_control/models/user.dart';
 import 'package:products_control/services/database.dart';
 import 'dart:async';
+
+import 'package:share/share.dart';
 
 class CheckListsList extends StatefulWidget {
   @override
@@ -59,19 +63,9 @@ class _CheckListsListState extends State<CheckListsList> {
                       color: Colors.deepPurple,
                       onPressed: () {
                         print("da");
-                        CollectionReference _checkListItemCollection =
-                            Firestore.instance.collection('checkListItems');
-                        Query query = _checkListItemCollection.where('listId',
-                            isEqualTo: checkList.id);
-                        query.getDocuments().then((snapshot) {
-                          for (DocumentSnapshot ds in snapshot.documents) {
-                            print(ds.reference);
-                            ds.reference.delete();
-                          }
-                        });
                         DatabaseService().deleteCheckList(checkList);
-
                         Navigator.pop(context, true);
+                        buildToast('Список был удален');
                       }),
                   SizedBox(
                     width: 100,
@@ -91,9 +85,6 @@ class _CheckListsListState extends State<CheckListsList> {
       loadData();
       start = false;
     }
-    //ЭТО НАДО РЕШИТЬ!!!!!!!!!!!!!!!!!!!
-    // loadData();
-    //ЭТО НАДО РЕШИТЬ!!!!!!!!!!!!!!!!!!!
 
     var checkListsList = Expanded(
       child: ListView.builder(
@@ -113,12 +104,25 @@ class _CheckListsListState extends State<CheckListsList> {
                 margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Container(
                   child: ListTile(
-                    leading: Icon(Icons.list),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 15.0,
-                    ),
-                    title: Text(checkLists[i].title),
-                  ),
+                      leading: Icon(Icons.list),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 15.0,
+                      ),
+                      title: Text(checkLists[i].title),
+                      trailing: ShareIcon(
+                        checkList: checkLists[i],
+                      )
+                      // InkWell(
+                      //   child: Icon(
+                      //     Icons.share,
+                      //     color: Colors.deepPurple,
+                      //   ),
+                      //   onTap: () {
+                      //     print("tap");
+                      //     share(context, checkLists[i]);
+                      //   },
+                      // ),
+                      ),
 
                   // onTap: () {
                   //   print('Tapped');

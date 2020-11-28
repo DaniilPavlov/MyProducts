@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../services/auth.dart';
 import '../widgets/bottomNavBar.dart';
@@ -73,7 +75,12 @@ class _NavContainerScreenState extends State<NavContainerScreen> {
                   ]));
     }
 
-    return Scaffold(
+    return
+      WillPopScope(
+        onWillPop: () {
+          exit(0);
+          return;
+    },child: Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: Text("MyProducts", style: TextStyle(color: Colors.white)),
@@ -92,6 +99,6 @@ class _NavContainerScreenState extends State<NavContainerScreen> {
       floatingActionButton: _floatingActionButton,
       resizeToAvoidBottomInset: true,
       resizeToAvoidBottomPadding: true,
-    );
+    ));
   }
 }

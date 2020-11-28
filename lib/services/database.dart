@@ -57,6 +57,14 @@ class DatabaseService {
     print("delete check list");
     DocumentReference checkListRef =
         _checkListCollection.document(checkList.id);
+    Query query = _checkListItemCollection.where('listId',
+        isEqualTo: checkList.id);
+    query.getDocuments().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        print(ds.reference);
+        ds.reference.delete();
+      }
+    });
     return checkListRef.delete();
   }
 

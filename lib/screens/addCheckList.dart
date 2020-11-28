@@ -7,6 +7,7 @@ import 'package:products_control/screens/addCheckListItem.dart';
 import 'package:products_control/models/checkListData.dart';
 import 'package:products_control/models/user.dart';
 import 'package:products_control/services/database.dart';
+import 'package:products_control/widgets/saveButton.dart';
 import 'package:products_control/widgets/toast.dart';
 import 'package:provider/provider.dart';
 
@@ -29,25 +30,12 @@ class _AddCheckListState extends State<AddCheckList> {
   @override
   void initState() {
     checkList = widget.checkList.copy();
+    if (checkList.description == null) checkList.description = "";
     if (checkList.title != null) {
       isOld = true;
     }
     super.initState();
   }
-
-  // void _saveCheckList() async {
-  //   if (_fbKey.currentState.saveAndValidate()) {
-  //
-  //     if (checkList.id == null) {
-  //       checkList.author = user.id;
-  //     }
-  //
-  //     await DatabaseService().addOrUpdateCheckList(checkList);
-  //     Navigator.of(context).pop(checkList);
-  //   } else {
-  //     buildToast('Ой! Что-то пошло не так.');
-  //   }
-  // }
 
   @override
   void dispose() {
@@ -74,6 +62,28 @@ class _AddCheckListState extends State<AddCheckList> {
     });
   }
 
+  void _saveCheckList() async {
+    checkList.author = user.id;
+    if (checkList.description == null) checkList.description = "";
+    if (checkList.title != null) {
+      await DatabaseService().addOrUpdateCheckList(checkList);
+      Navigator.of(context).pop(checkList);
+    } else
+      buildToast('Пожалуйста дайте списку название');
+  }
+
+  void handleClick(String value) {
+    switch (value) {
+      case 'Удалить':
+        DatabaseService().deleteCheckList(checkList);
+        Navigator.pop(context, true);
+        buildToast('Список был удален');
+        break;
+      case 'Поделиться':
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     user = Provider.of<User>(context);
@@ -84,34 +94,29 @@ class _AddCheckListState extends State<AddCheckList> {
 
     return WillPopScope(
         onWillPop: () async {
-          checkList.author = user.id;
-          // You can do some work here.
-          // Returning true allows the pop to happen, returning false prevents it.
-          if (_fbKey.currentState.saveAndValidate()) {
-            await DatabaseService().addOrUpdateCheckList(checkList);
-            Navigator.of(context).pop(checkList);
-          } else {
-            if (checkList.description == null)
-              checkList.description = "Без описания";
-            if (isOld && checkList.title == null) {
-              checkList.title = "Без названия";
-              buildToast('У измененного списка отсутствует название');
-              await DatabaseService().addOrUpdateCheckList(checkList);
-              Navigator.of(context).pop(checkList);
-            } else if (checkList.title != null) {
-              await DatabaseService().addOrUpdateCheckList(checkList);
-              Navigator.of(context).pop(checkList);
-            } else {
-              buildToast(
-                  'Новый список не был создан из-за отсутствия названия');
-              DatabaseService().deleteCheckList(checkList);
-            }
+          if (!isOld) {
+            buildToast('Новый список не был создан');
+            DatabaseService().deleteCheckList(checkList);
           }
           return true;
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text('${isOld ? 'Добавляем ' : 'Изменяем '} список'),
+              title: Text('${isOld ? 'Изменяем' : 'Добавляем'} список'),
+              actions: <Widget>[
+                SaveButton(onPressed: _saveCheckList),
+                PopupMenuButton<String>(
+                  onSelected: handleClick,
+                  itemBuilder: (BuildContext context) {
+                    return {'Удалить', 'Поделиться'}.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(choice),
+                      );
+                    }).toList();
+                  },
+                ),
+              ],
             ),
             floatingActionButton: FloatingActionButton(
               child: Icon(Icons.add),
